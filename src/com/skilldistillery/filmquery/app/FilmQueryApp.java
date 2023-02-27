@@ -13,25 +13,25 @@ public class FilmQueryApp {
 
 	DatabaseAccessor db = new DatabaseAccessorObject();
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) {
 		FilmQueryApp app = new FilmQueryApp();
 
 		app.launch();
 	}
 
 	private void launch() {
+
 		Scanner input = new Scanner(System.in);
-
+		System.out.println("Welcome to the Film Query App!");
 		startUserInterface(input);
-
 		input.close();
+
 	}
 
 	private void startUserInterface(Scanner input) {
 		// menu
 		boolean go = true;
 
-		System.out.println("Welcome to the Film Query App!");
 		do {
 			System.out.println("\nPlease select a menu option\n "
 					+ "1. Look up a film by ID.\n 2. Look up a film by keyword.\n" + " 3. Exit. ");
@@ -43,9 +43,14 @@ public class FilmQueryApp {
 			int userIn = input.nextInt();
 
 			if (userIn == 1) {
-				lookupFilmbyID();
+				try {
+					lookupFilmbyID(input);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else if (userIn == 2) {
-				searchByKeyWord();
+				searchByKeyWord(input);
 
 			} else if (userIn == 3) {
 				System.out.println("Goodbye");
@@ -58,12 +63,25 @@ public class FilmQueryApp {
 
 	}
 
-	public void lookupFilmbyID() {
-		System.out.println("searching for film by id");
+	public void lookupFilmbyID(Scanner input) throws SQLException {
+		System.out.println("Please enter the film ID");
+		while (!input.hasNextInt()) {
+			System.out.println("Please enter a number for the film ID");
+			input.next();
+		}
+		int filmId = input.nextInt();
+
+		Film film = db.findFilmById(filmId);
+		if (film == null)
+			System.out.println("Sorry, that film ID does not exist");
+		else {
+			System.out.println(film);
+		}
+		startUserInterface(input);
 
 	}
 
-	public void searchByKeyWord() {
+	public void searchByKeyWord(Scanner input) {
 		System.out.println("searching for keyword");
 
 	}
