@@ -29,7 +29,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	// works
 	@Override
-	public Film findFilmById(int filmId) throws SQLException {
+	public Film findFilmById(int filmId) {
 		Film film = null;
 
 		try {
@@ -184,5 +184,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 		return films;
 	}
+
+	
 
 }

@@ -42,12 +42,9 @@ public class FilmQueryApp {
 			int userIn = input.nextInt();
 
 			if (userIn == 1) {
-				try {
-					lookupFilmbyID(input);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
+				lookupFilmbyID(input);
+
 			} else if (userIn == 2) {
 				searchByKeyWord(input);
 
@@ -55,14 +52,14 @@ public class FilmQueryApp {
 				System.out.println("Goodbye");
 				go = false;
 			} else {
-				System.out.println("Please enter 1 or 2");
+				System.out.println("Please enter '1', '2', or '3'");
 			}
 
 		} while (go == true);
 
 	}
 
-	public void lookupFilmbyID(Scanner input) throws SQLException {
+	public void lookupFilmbyID(Scanner input) {
 		System.out.println("Please enter the film ID");
 		while (!input.hasNextInt()) {
 			System.out.println("Please enter a number for the film ID");
@@ -70,13 +67,21 @@ public class FilmQueryApp {
 		}
 		int filmId = input.nextInt();
 
-		Film film = db.findFilmById(filmId);
-		if (film == null)
-			System.out.println("Sorry, that film ID does not exist");
-		else {
-			System.out.println(film);
+		Film film;
+
+		try {
+			film = db.findFilmById(filmId);
+			if (film == null)
+				System.out.println("Sorry, that film ID does not exist");
+			else {
+				System.out.println(film);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
 
 	}
 
