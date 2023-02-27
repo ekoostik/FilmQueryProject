@@ -73,12 +73,27 @@ public class FilmQueryApp {
 			film = db.findFilmById(filmId);
 			if (film == null)
 				System.out.println("Sorry, that film ID does not exist");
-			else {
-				System.out.println(film);
+			boolean go = true;
 
-			}
+			System.out.println(film);
+			do {
+				System.out.println("Would you like to see all the details for this film? 'Y' or 'N'");
+				String subMenu = input.next();
+				if (subMenu.equalsIgnoreCase("y")) {
+					System.out.println(film.allFilmInfo());
+					go =false;
 
-		} catch (SQLException e) {
+				} else if (subMenu.equalsIgnoreCase("n")) {
+					go = false;
+				} else {
+
+					System.out.println("Please enter 'Y' or 'N'");
+
+				}
+			} while (go == true);
+		}
+
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

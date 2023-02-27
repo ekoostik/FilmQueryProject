@@ -18,16 +18,23 @@ public class Film {
 	private String features;
 	private List<Actor> cast;
 	private String lang;
+	private String cat;
 
 	public Film() {
 
 	}
 
-	
+	public String getCat() {
+		return cat;
+	}
+
+	public void setCat(String cat) {
+		this.cat = cat;
+	}
 
 	public Film(Integer filmId, String title, String desc, Integer releaseYear, String languageId, Integer rentDur,
-			Double rentalRate, Double length, Double replaceCost, String rating, String features,
-			List<Actor> cast, String lang) {
+			Double rentalRate, Double length, Double replaceCost, String rating, String features, List<Actor> cast,
+			String lang, String cat) {
 		this.filmId = filmId;
 		this.title = title;
 		this.desc = desc;
@@ -40,20 +47,17 @@ public class Film {
 		this.rating = rating;
 		this.features = features;
 		this.cast = cast;
-		this.lang=lang;
+		this.lang = lang;
+		this.cat = cat;
 	}
 
 	public String getLang() {
 		return lang;
 	}
 
-
-
 	public void setLang(String lang) {
 		this.lang = lang;
 	}
-
-
 
 	public List<Actor> getCast() {
 		return cast;
@@ -168,14 +172,17 @@ public class Film {
 		return filmId == other.filmId;
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "Film " + title + ", "  + " Released: " + releaseYear +
-				", Rated: " + rating + ", Language: " + lang + "\n" + desc + "\nCast" + cast + "\n";
+		return "Film " + title + ", " + " Released: " + releaseYear + ", Rated: " + rating + ", Language: " + lang
+				+ "\n" + desc + "\nCast" + cast + "\n";
 	}
 
-	
+	public String allFilmInfo() {
+		return "Film ID " + filmId + ", " + title + " " + desc + "\n released " + releaseYear + ", " + lang
+				+ ", Rent duration " + rentDur + "\n Rental rate " + rentalRate + ", length " + length
+				+ ", Replacement Cost " + replaceCost + ", Rating " + rating + ", Features " + features + "\n Cast"
+				+ cast + "\n Category " + cat;
+	}
 
 }

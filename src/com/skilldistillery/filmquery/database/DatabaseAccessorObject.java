@@ -55,6 +55,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setFeatures(rs.getString("special_features"));
 				film.setCast(findActorsByFilmId(filmId));
 				film.setLang(findLanguage(filmId));
+				film.setCat(findCategory(filmId));
 
 			}
 			rs.close();
@@ -174,6 +175,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setFeatures(rs.getString("special_features"));
 				film.setCast(findActorsByFilmId(film.getfilmId()));
 				film.setLang(findLanguage(film.getfilmId()));
+				film.setCat(findCategory(film.getfilmId()));
 				films.add(film);
 			}
 			rs.close();
@@ -183,6 +185,35 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			e.printStackTrace();
 		}
 		return films;
+	}
+	
+	public String findCategory(int filmId) {
+		String cat = "";
+
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			String sql = "SELECT cat.name \n"
+					+ "From Category cat Join film flm \n"
+					+ "On cat.id = flm.id \n"
+					+ "WHERE flm.id = ? ";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, filmId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				cat = rs.getString("name");
+			}
+			else {cat = "none";
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+
+		return cat;
+
 	}
 
 	
