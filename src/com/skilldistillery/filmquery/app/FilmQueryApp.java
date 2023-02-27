@@ -6,12 +6,11 @@ import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
 import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
-import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class FilmQueryApp {
 
-	DatabaseAccessor db = new DatabaseAccessorObject();
+	private DatabaseAccessor db = new DatabaseAccessorObject();
 
 	public static void main(String[] args) {
 		FilmQueryApp app = new FilmQueryApp();
@@ -77,12 +76,25 @@ public class FilmQueryApp {
 		else {
 			System.out.println(film);
 		}
-		startUserInterface(input);
+		
 
 	}
 
 	public void searchByKeyWord(Scanner input) {
-		System.out.println("searching for keyword");
+		System.out.println("Plese enter a search word");
+		String keyWord = input.next();
+
+		List<Film> result = db.findByKey(keyWord);
+		if (result.size() > 0) {
+			for (Film film : result) {
+
+				System.out.println(film);
+			}
+
+		} else {
+			System.out.println("No matches where found");
+
+		}
 
 	}
 

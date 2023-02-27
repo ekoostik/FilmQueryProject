@@ -12,9 +12,9 @@ public interface DatabaseAccessor {
 	public Actor findActorById(int actorId) throws SQLException;
 
 	public List<Actor> findActorsByFilmId(int filmId);
-	
-	
+
 	public String findLanguage(int filmId);
 
-	
+	List<Film> findByKey(String key);
+
 }

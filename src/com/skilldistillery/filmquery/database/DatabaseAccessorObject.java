@@ -57,6 +57,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setLang(findLanguage(filmId));
 
 			}
+			rs.close();
+			stmt.close();
+			conn.close();
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -83,6 +86,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 						actorResult.getString("last_name"));
 
 			}
+			actorResult.close();
+			stmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -116,14 +122,13 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return actors;
 	}
 
+	@Override
 	public String findLanguage(int filmId) {
 		String lang = "";
 
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
-			String sql = "SELECT la.name\n"
-					+ "From language la JOIN film flm\n"
-					+ "On la.id = flm.language_id\n"
+			String sql = "SELECT la.name\n" + "From language la JOIN film flm\n" + "On la.id = flm.language_id\n"
 					+ "WHERE flm.id = ? ";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
@@ -141,6 +146,43 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		return lang;
 
+	}
+
+	@Override
+	public List<Film> findByKey(String key) {
+		List<Film> films = new ArrayList<>();
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			String sql = "SELECT film.*\n" + "FROM film\n" + "WHERE title LIKE ?  \n" + "OR description LIKE ? ";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%" + key + "%");
+			stmt.setString(2, "%" + key + "%");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Film film = new Film();
+
+				film.setfilmId(rs.getInt("id"));
+				film.setTitle(rs.getString("title"));
+				film.setDesc(rs.getString("description"));
+				film.setReleaseYear(rs.getInt("release_year"));
+				film.setLanguageId(rs.getString("language_id"));
+				film.setRentDur(rs.getInt("rental_duration"));
+				film.setRentalRate(rs.getDouble("rental_rate"));
+				film.setLength(rs.getDouble("length"));
+				film.setReplaceCost(rs.getDouble("replacement_cost"));
+				film.setRating(rs.getString("rating"));
+				film.setFeatures(rs.getString("special_features"));
+				film.setCast(findActorsByFilmId(film.getfilmId()));
+				film.setLang(findLanguage(film.getfilmId()));
+				films.add(film);
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return films;
 	}
 
 }
