@@ -17,7 +17,7 @@ Sublime
 On this project I learned a lot about interacting with a database using Java.
 A lot of the Java code was review, such as implementation of the interface, method calling, and encapsulation. 
 However the syntax involving Drivers, Prepared Statements and SQL was all new.
-I really enjoy SQL and honing the Query statement. \n
+I really enjoy SQL and honing the Query statement. 
 I struggled with the exception aspect of the homework. 
 I still need quite a bit of review and study time 
 with exceptions. 
